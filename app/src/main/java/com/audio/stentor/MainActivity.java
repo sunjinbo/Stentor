@@ -10,6 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+
 public class MainActivity extends Activity implements View.OnClickListener, TaskCallback {
 
     private Button mDecodeButton;
@@ -35,7 +38,13 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
 
         setContentView(R.layout.activity_main);
 
+        initData();
+
         initView();
+    }
+
+    private void initData() {
+
     }
 
     private void initView() {
@@ -64,7 +73,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_decode:
-                (new TestAudioTask(this)).start();
+                (new DecodeAudioTask(this, this)).start();
                 break;
 
             case R.id.btn_mixing:

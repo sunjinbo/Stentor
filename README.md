@@ -1,2 +1,2 @@
 # Stentor
-this is a sample project to verfiy how to decoding, mixing, and playout an audio stuff.
+I create this project to verify how to decoding, mixing, and playout audio stuff.

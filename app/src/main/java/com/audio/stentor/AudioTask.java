@@ -1,13 +1,22 @@
 package com.audio.stentor;
 
+import android.content.Context;
+
 /**
  * AudioTask class.
  */
 public abstract class AudioTask {
 
+    protected Context mContext;
     protected TaskCallback mCallback;
 
-    protected AudioTask(TaskCallback callback) {
+    public abstract void start();
+    public abstract void pause();
+    public abstract void stop();
+    public abstract void release();
+
+    protected AudioTask(Context context, TaskCallback callback) {
+        mContext = context;
         mCallback = callback;
     }
 
