@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.audio.stentor.MainActivity">
+
+    <LinearLayout
+        android:background="#aaaaaa"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:background="#eeeeee"
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <ProgressBar
+                android:id="@+id/progress_audio_task"
+                android:progress="50"
+                android:visibility="invisible"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <Button
+                android:id="@+id/btn_preview"
+                android:text="start"
+                android:enabled="false"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_current_position"
+                android:text="00:00"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/progress_preview"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_total"
+                android:text="00:00"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_decode"
+        android:text="decode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_microphone"
+        android:text="microphone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_mixing"
+        android:text="mixing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_denoise"
+        android:text="denoise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_packaging"
+        android:text="packaging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
