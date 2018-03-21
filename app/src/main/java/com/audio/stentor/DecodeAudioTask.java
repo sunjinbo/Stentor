@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
 
 /**
  * DecodeAudioTask class.
@@ -24,22 +23,13 @@ public class DecodeAudioTask extends AudioTask {
     private MediaCodec mMediaDecode;
 
     private ByteBuffer[] mDecodeInputBuffers;
-    private ByteBuffer[] mDecodeOutputBuffers;
     private MediaCodec.BufferInfo mDecodeBufferInfo;
 
-    private ArrayList<byte[]> mChunkPCMDataContainer = new ArrayList<>();
     private boolean mIsDecodeCompleted = false;
-    private long mDecodeSize = 0;
     private float mVideoTotalTime;
 
     public DecodeAudioTask(Context context, TaskCallback callback) {
         super(context, callback);
-        try {
-            AssetsUtils.copyAssetsToSDCard(context, "video.mp4",
-                    (new File(context.getExternalCacheDir(), "video.mp4")).getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -48,7 +38,7 @@ public class DecodeAudioTask extends AudioTask {
         notifyTaskStarted();
 
         try {
-            final String dataSource = (new File(mContext.getExternalCacheDir(), "video.mp4").getAbsolutePath());
+            final String dataSource = (new File(mContext.getExternalCacheDir(), "sample.mp4").getAbsolutePath());
             mMediaExtractor = new MediaExtractor();
             mMediaExtractor.setDataSource(dataSource);
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
@@ -76,14 +66,13 @@ public class DecodeAudioTask extends AudioTask {
         if (mMediaExtractor != null && mMediaDecode != null) {
             mMediaDecode.start();
             mDecodeInputBuffers = mMediaDecode.getInputBuffers();
-            mDecodeOutputBuffers = mMediaDecode.getOutputBuffers();
             mDecodeBufferInfo = new MediaCodec.BufferInfo();
 
             FileOutputStream fos = null;
             BufferedOutputStream bos = null;
 
             try {
-                fos = new FileOutputStream(new File(mContext.getExternalCacheDir(), "video.pcm"));
+                fos = new FileOutputStream(new File(mContext.getExternalCacheDir(), "sample.pcm"));
                 bos = new BufferedOutputStream(fos,200*1024);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -108,7 +97,6 @@ public class DecodeAudioTask extends AudioTask {
                     } else {
                         mMediaDecode.queueInputBuffer(inputIndex, 0, sampleSize, 0, 0);
                         mMediaExtractor.advance();
-                        mDecodeSize += sampleSize;
                     }
                 }
 

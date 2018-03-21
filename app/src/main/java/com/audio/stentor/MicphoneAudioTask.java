@@ -27,7 +27,7 @@ public class MicphoneAudioTask extends AudioTask {
     public void run() {
         notifyTaskStarted();
 
-        final String dataSource = (new File(mContext.getExternalCacheDir(), "video.mp4").getAbsolutePath());
+        final String dataSource = (new File(mContext.getExternalCacheDir(), "sample.mp4").getAbsolutePath());
 
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(dataSource);
@@ -51,7 +51,7 @@ public class MicphoneAudioTask extends AudioTask {
         BufferedOutputStream bos = null;
 
         try {
-            File pcm = new File(mContext.getExternalCacheDir(), "video.pcm");
+            File pcm = new File(mContext.getExternalCacheDir(), "sample.pcm");
             if (pcm.exists()) {
                 pcm.delete();
             }

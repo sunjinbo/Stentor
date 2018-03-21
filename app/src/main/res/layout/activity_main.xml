@@ -20,14 +20,14 @@
         android:layout_height="8dp" />
 
     <Button
-        android:id="@+id/btn_decode"
-        android:text="decode"
+        android:id="@+id/btn_playout"
+        android:text="playout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/btn_play_pcm"
-        android:text="playout"
+        android:id="@+id/btn_decode"
+        android:text="decode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -46,6 +46,18 @@
     <Button
         android:id="@+id/btn_denoise"
         android:text="denoise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_tone"
+        android:text="tone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_encode"
+        android:text="encode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
