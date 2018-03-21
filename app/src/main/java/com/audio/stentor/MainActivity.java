@@ -3,30 +3,20 @@ package com.audio.stentor;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.IOException;
 
 public class MainActivity extends Activity implements View.OnClickListener, TaskCallback {
 
     private Button mDecodeButton;
+    private Button mPcmButton;
     private Button mMixingButton;
     private Button mMicrophoneButton;
     private Button mDenoiseButton;
     private Button mPackagingButton;
 
-    private Button mPreviewButton;
-
-    private TextView mCurrentPositionTextView;
-    private TextView mTotalTextView;
-
-    private ProgressBar mPreviewProgressBar;
     private ProgressBar mAudioTaskProgressBar;
 
     @Override
@@ -49,23 +39,19 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
 
     private void initView() {
         mDecodeButton = findViewById(R.id.btn_decode);
+        mPcmButton = findViewById(R.id.btn_play_pcm);
         mMixingButton = findViewById(R.id.btn_mixing);
         mMicrophoneButton = findViewById(R.id.btn_microphone);
         mDenoiseButton = findViewById(R.id.btn_denoise);
         mPackagingButton = findViewById(R.id.btn_packaging);
-        mPreviewButton = findViewById(R.id.btn_preview);
 
         mDecodeButton.setOnClickListener(this);
+        mPcmButton.setOnClickListener(this);
         mMixingButton.setOnClickListener(this);
         mMicrophoneButton.setOnClickListener(this);
         mDenoiseButton.setOnClickListener(this);
         mPackagingButton.setOnClickListener(this);
-        mPreviewButton.setOnClickListener(this);
 
-        mCurrentPositionTextView = findViewById(R.id.tv_current_position);
-        mTotalTextView = findViewById(R.id.tv_total);
-
-        mPreviewProgressBar = findViewById(R.id.progress_preview);
         mAudioTaskProgressBar = findViewById(R.id.progress_audio_task);
     }
 
@@ -74,6 +60,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
         switch (view.getId()) {
             case R.id.btn_decode:
                 (new DecodeAudioTask(this, this)).start();
+                break;
+
+            case R.id.btn_play_pcm:
                 break;
 
             case R.id.btn_mixing:
@@ -88,14 +77,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
             case R.id.btn_packaging:
                 break;
 
-            case R.id.btn_preview:
-                if (TextUtils.equals(mPreviewButton.getText(), "pause")) {
-                    mPreviewButton.setText("start");
-                } else {
-                    mPreviewButton.setText("pause");
-                }
-                break;
-
             default:
                 break;
         }
@@ -107,32 +88,34 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
             @Override
             public void run() {
                 mDecodeButton.setEnabled(false);
+                mPcmButton.setEnabled(false);
                 mMixingButton.setEnabled(false);
                 mMicrophoneButton.setEnabled(false);
                 mDenoiseButton.setEnabled(false);
                 mPackagingButton.setEnabled(false);
-                mPreviewButton.setEnabled(false);
-                mPreviewButton.setText("start");
+
                 mAudioTaskProgressBar.setVisibility(View.VISIBLE);
-                mTotalTextView.setText(TimeUtils.formatNumberToMinuteSecond(0.0));
-                mCurrentPositionTextView.setText(TimeUtils.formatNumberToMinuteSecond(0.0));
             }
         });
     }
 
     @Override
-    public void onTaskCompleted(AudioTask task) {
+    public void onTaskCompleted(final AudioTask task) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mDecodeButton.setEnabled(true);
+                mPcmButton.setEnabled(true);
                 mMixingButton.setEnabled(true);
                 mMicrophoneButton.setEnabled(true);
                 mDenoiseButton.setEnabled(true);
                 mPackagingButton.setEnabled(true);
-                mPreviewButton.setEnabled(true);
-                mPreviewButton.setText("start");
+
                 mAudioTaskProgressBar.setVisibility(View.INVISIBLE);
+
+                if (task instanceof DecodeAudioTask) {
+                    Toast.makeText(MainActivity.this, "Successfully decode a PCM file!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -143,12 +126,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
             @Override
             public void run() {
                 mDecodeButton.setEnabled(true);
+                mPcmButton.setEnabled(true);
                 mMixingButton.setEnabled(true);
                 mMicrophoneButton.setEnabled(true);
                 mDenoiseButton.setEnabled(true);
                 mPackagingButton.setEnabled(true);
-                mPreviewButton.setEnabled(true);
-                mPreviewButton.setText("start");
+
                 mAudioTaskProgressBar.setVisibility(View.INVISIBLE);
 
                 Toast.makeText(MainActivity.this, "This task occurs error!", Toast.LENGTH_SHORT).show();
@@ -166,6 +149,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 if (total > 0) {
                     progress = (int)((double)current / (double)total * 100);
                 }
+
                 mAudioTaskProgressBar.setProgress(progress);
             }
         });
