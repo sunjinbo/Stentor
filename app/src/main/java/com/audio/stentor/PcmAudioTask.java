@@ -12,32 +12,12 @@ import java.io.FileInputStream;
  * PcmAudioTask class.
  * This class can play a PCM file directly.
  */
-public class PcmAudioTask extends AudioTask implements Runnable {
+public class PcmAudioTask extends AudioTask {
 
     private AudioTrack mAudioTrack;
 
     public PcmAudioTask(Context context, TaskCallback callback) {
         super(context, callback);
-    }
-
-    @Override
-    public void start() {
-        new Thread(this).start();
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void release() {
-
     }
 
     @Override

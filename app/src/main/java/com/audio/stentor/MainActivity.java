@@ -70,6 +70,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 break;
 
             case R.id.btn_microphone:
+                (new MicphoneAudioTask(this, this)).start();
                 break;
 
             case R.id.btn_denoise:
@@ -115,7 +116,11 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 mAudioTaskProgressBar.setVisibility(View.INVISIBLE);
 
                 if (task instanceof DecodeAudioTask) {
-                    Toast.makeText(MainActivity.this, "Successfully decode a PCM file!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Successfully to decode a PCM file!", Toast.LENGTH_SHORT).show();
+                } else if (task instanceof PcmAudioTask) {
+                    Toast.makeText(MainActivity.this, "Successfully to playing a PCM file!", Toast.LENGTH_SHORT).show();
+                } else if (task instanceof MicphoneAudioTask) {
+                    Toast.makeText(MainActivity.this, "Successfully to record an audio file!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

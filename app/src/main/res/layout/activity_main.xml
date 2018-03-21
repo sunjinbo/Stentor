@@ -27,7 +27,7 @@
 
     <Button
         android:id="@+id/btn_play_pcm"
-        android:text="pcm"
+        android:text="playout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

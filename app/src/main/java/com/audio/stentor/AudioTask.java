@@ -5,15 +5,10 @@ import android.content.Context;
 /**
  * AudioTask class.
  */
-public abstract class AudioTask {
+public abstract class AudioTask extends Thread {
 
     protected Context mContext;
     protected TaskCallback mCallback;
-
-    public abstract void start();
-    public abstract void pause();
-    public abstract void stop();
-    public abstract void release();
 
     protected AudioTask(Context context, TaskCallback callback) {
         mContext = context;

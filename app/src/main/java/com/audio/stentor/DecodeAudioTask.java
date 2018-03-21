@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * DecodeAudioTask class.
  * This class can extract audio track from video file(.MP4) and save the pcm data to sdcard
  */
-public class DecodeAudioTask extends AudioTask implements Runnable {
+public class DecodeAudioTask extends AudioTask {
 
     private MediaExtractor mMediaExtractor;
     private MediaCodec mMediaDecode;
@@ -40,26 +40,6 @@ public class DecodeAudioTask extends AudioTask implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void start() {
-        new Thread(this).start();
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public void release() {
-
     }
 
     @Override
