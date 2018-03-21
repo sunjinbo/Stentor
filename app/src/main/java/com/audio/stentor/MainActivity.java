@@ -63,6 +63,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 break;
 
             case R.id.btn_play_pcm:
+                (new PcmAudioTask(this, this)).start();
                 break;
 
             case R.id.btn_mixing:
