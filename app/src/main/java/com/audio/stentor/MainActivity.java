@@ -97,6 +97,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 break;
 
             case R.id.btn_mixing:
+                (new MixingAudioTask(this, this)).start();
                 break;
 
             case R.id.btn_denoise:
@@ -157,6 +158,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                     Toast.makeText(MainActivity.this, "Successfully to playing a PCM file!", Toast.LENGTH_SHORT).show();
                 } else if (task instanceof MicphoneAudioTask) {
                     Toast.makeText(MainActivity.this, "Successfully to record an audio file!", Toast.LENGTH_SHORT).show();
+                } else if (task instanceof MixingAudioTask) {
+                    Toast.makeText(MainActivity.this, "Successfully to mixing an audio file!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
