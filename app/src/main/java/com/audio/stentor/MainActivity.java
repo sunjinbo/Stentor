@@ -47,8 +47,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
 
             AssetsUtils.copyAssetsToSDCard(
                     this,
-                    "sample.mp3",
-                    (new File(this.getExternalCacheDir(), "sample.mp3")).getAbsolutePath());
+                    "BGM.pcm",
+                    (new File(this.getExternalCacheDir(), "BGM.pcm")).getAbsolutePath());
 
             AssetsUtils.copyAssetsToSDCard(
                     this,
