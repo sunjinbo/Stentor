@@ -11,11 +11,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * MixingAudioTask.
+ * DenoiseAudioTask class.
  */
-public class MixingAudioTask extends AudioTask {
+public class DenoiseAudioTask extends AudioTask {
 
-    public MixingAudioTask(Context context, TaskCallback callback) {
+    public DenoiseAudioTask(Context context, TaskCallback callback) {
         super(context, callback);
     }
 
@@ -25,13 +25,11 @@ public class MixingAudioTask extends AudioTask {
 
         try {
             final File sample = new File(mContext.getExternalCacheDir(), "sample.pcm");
-            final File BGM = new File(mContext.getExternalCacheDir(), "BGM.pcm");
-            if (sample.exists() && BGM.exists()) {
+            if (sample.exists()) {
                 final int minBufferSize = AudioTrack.getMinBufferSize(48000,
                         AudioFormat.CHANNEL_IN_STEREO, AudioFormat.ENCODING_PCM_16BIT);
 
                 FileInputStream sampleInputStream = new FileInputStream(sample);
-                FileInputStream bgmInputStream = new FileInputStream(BGM);
 
                 FileOutputStream fos = null;
                 BufferedOutputStream bos = null;
@@ -48,17 +46,19 @@ public class MixingAudioTask extends AudioTask {
                 int progress = 0;
 
                 byte[] sample_arr = new byte[minBufferSize];
-                byte[] bgm_arr = new byte[minBufferSize];
-                while (((sample_len = sampleInputStream.read(sample_arr))!=-1) && (bgm_len = bgmInputStream.read(bgm_arr))!=-1) {
-                    byte[] mix = mixAudio(sample_arr, bgm_arr);
-                    bos.write(mix, 0, mix.length);
+
+                while (((sample_len = sampleInputStream.read(sample_arr))!=-1)) {
+                    short[] short_arr = toShortArray(sample_arr);
+                    short[] denoise_arr = denoise(short_arr, 0, short_arr.length);
+                    byte[] byte_arr = toByteArray(denoise_arr);
+
+                    bos.write(byte_arr, 0, byte_arr.length);
                     progress += sample_len;
                     notifyTaskProgress((int)sample.length(), progress);
                 }
 
                 try {
                     sampleInputStream.close();
-                    bgmInputStream.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -113,23 +113,32 @@ public class MixingAudioTask extends AudioTask {
         notifyTaskCompleted();
     }
 
-    private byte[] mixAudio(byte[] first, byte[] second) {
-        if (first.length != second.length) {
-            return null;
+    private static short[] toShortArray(byte[] src) {
+        int count = src.length >> 1;
+        short[] dest = new short[count];
+        for (int i = 0; i < count; i++) {
+            dest[i] = (short) (src[i * 2] << 8 | src[2 * i + 1] & 0xff);
+        }
+        return dest;
+    }
+
+    private static byte[] toByteArray(short[] src) {
+        int count = src.length;
+        byte[] dest = new byte[count << 1];
+        for (int i = 0; i < count; i++) {
+            dest[i * 2] = (byte) (src[i] >> 8);
+            dest[i * 2 + 1] = (byte) (src[i] >> 0);
         }
 
-        byte[] output = new byte[first.length];
-        for (int i = 0; i < output.length; i++) {
-            float sample1 = first[i] / 128f;
-            float sample2 = second[i] / 128f;
+        return dest;
+    }
 
-            float mixed = (sample1 + sample2 * 0.5f) * 0.6f;
-
-            if (mixed > 1.0f) mixed = 1.0f;
-            if (mixed < -1.0f) mixed = -1.0f;
-
-            output[i] = (byte) (mixed * 128f);
+    private static short[] denoise(short[] data, int offset, int length) {
+        int i,j;
+        for (i = 0; i < length; i++) {
+            j = data[i+offset];
+            data[i+offset] = (short)(j>>2);
         }
-        return output;
+        return data;
     }
 }

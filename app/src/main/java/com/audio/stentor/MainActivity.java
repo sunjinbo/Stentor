@@ -28,9 +28,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBar actionBar = getActionBar();
-        actionBar.hide();
-
         setContentView(R.layout.activity_main);
 
         initData();
@@ -101,6 +98,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 break;
 
             case R.id.btn_denoise:
+                (new DenoiseAudioTask(this, this)).start();
                 break;
 
             case R.id.btn_tone:
@@ -160,6 +158,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                     Toast.makeText(MainActivity.this, "Successfully to record an audio file!", Toast.LENGTH_SHORT).show();
                 } else if (task instanceof MixingAudioTask) {
                     Toast.makeText(MainActivity.this, "Successfully to mixing an audio file!", Toast.LENGTH_SHORT).show();
+                } else if (task instanceof DenoiseAudioTask) {
+                    Toast.makeText(MainActivity.this, "Successfully to denoise an audio file!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
