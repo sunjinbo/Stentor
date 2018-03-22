@@ -39,7 +39,7 @@ public class MuxerAudioTask extends AudioTask {
                 }
             }
 
-            final File audioFile = new File(mContext.getExternalCacheDir(), "BGM.wav");
+            final File audioFile = new File(mContext.getExternalCacheDir(), "sample.aac");
             MediaExtractor audioExtractor = new MediaExtractor();
             audioExtractor.setDataSource(audioFile.getAbsolutePath());
             MediaFormat audioFormat = null;
