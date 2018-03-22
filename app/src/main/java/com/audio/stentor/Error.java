@@ -5,4 +5,5 @@ package com.audio.stentor;
  */
 public final class Error {
     public final static int ERR_FILE_NOT_FOUND = -1;
+    public final static int ERR_IO_EXCEPTION = -1;
 }

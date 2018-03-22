@@ -62,8 +62,8 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/btn_packaging"
-        android:text="packaging"
+        android:id="@+id/btn_muxer"
+        android:text="muxer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

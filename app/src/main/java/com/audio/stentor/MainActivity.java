@@ -1,6 +1,5 @@
 package com.audio.stentor;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +19,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
     private Button mDenoiseButton;
     private Button mToneButton;
     private Button mEncodeButton;
-    private Button mPackagingButton;
+    private Button mMuxerButton;
 
     private ProgressBar mAudioTaskProgressBar;
 
@@ -39,13 +38,23 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
         try {
             AssetsUtils.copyAssetsToSDCard(
                     this,
-                    "sample.mp4",
-                    (new File(this.getExternalCacheDir(), "sample.mp4")).getAbsolutePath());
+                    "BGM.wav",
+                    (new File(this.getExternalCacheDir(), "BGM.wav")).getAbsolutePath());
+
+            AssetsUtils.copyAssetsToSDCard(
+                    this,
+                    "BGM.mp3",
+                    (new File(this.getExternalCacheDir(), "BGM.mp3")).getAbsolutePath());
 
             AssetsUtils.copyAssetsToSDCard(
                     this,
                     "BGM.pcm",
                     (new File(this.getExternalCacheDir(), "BGM.pcm")).getAbsolutePath());
+
+            AssetsUtils.copyAssetsToSDCard(
+                    this,
+                    "sample.mp4",
+                    (new File(this.getExternalCacheDir(), "sample.mp4")).getAbsolutePath());
 
             AssetsUtils.copyAssetsToSDCard(
                     this,
@@ -64,7 +73,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
         mDenoiseButton = findViewById(R.id.btn_denoise);
         mToneButton = findViewById(R.id.btn_tone);
         mEncodeButton = findViewById(R.id.btn_encode);
-        mPackagingButton = findViewById(R.id.btn_packaging);
+        mMuxerButton = findViewById(R.id.btn_muxer);
 
         mDecodeButton.setOnClickListener(this);
         mPlayoutButton.setOnClickListener(this);
@@ -73,7 +82,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
         mDenoiseButton.setOnClickListener(this);
         mToneButton.setOnClickListener(this);
         mEncodeButton.setOnClickListener(this);
-        mPackagingButton.setOnClickListener(this);
+        mMuxerButton.setOnClickListener(this);
 
         mAudioTaskProgressBar = findViewById(R.id.progress_audio_task);
     }
@@ -107,7 +116,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
             case R.id.btn_encode:
                 break;
 
-            case R.id.btn_packaging:
+            case R.id.btn_muxer:
+                (new MuxerAudioTask(this, this)).start();
                 break;
 
             default:
@@ -127,7 +137,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 mDenoiseButton.setEnabled(false);
                 mToneButton.setEnabled(false);
                 mEncodeButton.setEnabled(false);
-                mPackagingButton.setEnabled(false);
+                mMuxerButton.setEnabled(false);
 
                 mAudioTaskProgressBar.setVisibility(View.VISIBLE);
             }
@@ -146,7 +156,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 mDenoiseButton.setEnabled(true);
                 mToneButton.setEnabled(true);
                 mEncodeButton.setEnabled(true);
-                mPackagingButton.setEnabled(true);
+                mMuxerButton.setEnabled(true);
 
                 mAudioTaskProgressBar.setVisibility(View.INVISIBLE);
 
@@ -160,6 +170,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                     Toast.makeText(MainActivity.this, "Successfully to mixing an audio file!", Toast.LENGTH_SHORT).show();
                 } else if (task instanceof DenoiseAudioTask) {
                     Toast.makeText(MainActivity.this, "Successfully to denoise an audio file!", Toast.LENGTH_SHORT).show();
+                } else if (task instanceof MuxerAudioTask) {
+                    Toast.makeText(MainActivity.this, "Successfully to muxing a media file!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -177,7 +189,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 mDenoiseButton.setEnabled(true);
                 mToneButton.setEnabled(true);
                 mEncodeButton.setEnabled(true);
-                mPackagingButton.setEnabled(true);
+                mMuxerButton.setEnabled(true);
 
                 mAudioTaskProgressBar.setVisibility(View.INVISIBLE);
 
