@@ -114,6 +114,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Task
                 break;
 
             case R.id.btn_encode:
+                (new EncodeAudioTask(this, this)).start();
                 break;
 
             case R.id.btn_muxer:
